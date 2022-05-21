@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\classes">
+      <UniqueIdentifier>{8ab7becd-e327-4a1b-bb8b-903742ebe501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GEMM">
+      <UniqueIdentifier>{febf6a98-c68f-4a72-8f8d-52f7e88575db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GEMM\CPU">
+      <UniqueIdentifier>{ebc3c3d4-040f-467c-a323-0db118ab15c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core">
+      <UniqueIdentifier>{7612ee93-8884-4a6f-9092-741188f3280d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\utils">
+      <UniqueIdentifier>{3ec37c76-1ad8-4a7e-969b-0baa8915148d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\nn">
+      <UniqueIdentifier>{750ae9cf-752d-472b-9f5a-a97a0c0663e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\nn\operators">
+      <UniqueIdentifier>{06bb0e88-d325-438a-a634-bdc8ba79b142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cv">
+      <UniqueIdentifier>{c1ac0e0f-2dae-4055-bc50-cc20e7580b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cv\utils">
+      <UniqueIdentifier>{511b73c1-be3e-4454-87ed-116ccc67da4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations">
+      <UniqueIdentifier>{53983bb8-b250-4b24-9a43-a7547dd63f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations\Matrix">
+      <UniqueIdentifier>{49f8624c-9e53-4d95-abc5-482254b1c7d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations\Vector">
+      <UniqueIdentifier>{86e7e4ac-0d2c-450d-8ccd-18c005d657ed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\classes_util.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\core_types.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\initializer.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\matrix.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\tensor.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CPU\gemm_utils.h">
+      <Filter>头文件\GEMM\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CPU\sgemm_calc_kernel.h">
+      <Filter>头文件\GEMM\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\basic.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\compile_params.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\configuration.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\defines.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\error.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\include.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\vector_defines.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\utils\decx_utils_functions.h">
+      <Filter>头文件\core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\utils\decx_utils_macros.h">
+      <Filter>头文件\core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CPU\sgemm_callers.h">
+      <Filter>头文件\GEMM\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CPU\sgemm.h">
+      <Filter>头文件\GEMM\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\Matrix_member_function_definition.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\operators.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\ReLU.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\sigmoid.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\tanh.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\cv\utils\cvt_colors.h">
+      <Filter>头文件\cv\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\cv\utils\cvt_colors_def.h">
+      <Filter>头文件\cv\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cpu_divide.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cpu_multiply.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cpu_subtract.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cpu_add.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Add_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Div_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fma_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fms_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Mul_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Sub_exec.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_divide.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_fma.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_fms.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_multiply.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_subtract.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cpu_add.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\operators.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\allocators.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DECX_CPU.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

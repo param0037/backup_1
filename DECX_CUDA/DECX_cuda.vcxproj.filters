@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\classes">
+      <UniqueIdentifier>{0a312f75-8335-4c51-a5e7-76a633317800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\handles">
+      <UniqueIdentifier>{fb30a3b6-b471-4c32-868e-2b91f2793916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations">
+      <UniqueIdentifier>{d534dc1b-9eec-4f6e-a5f1-0fa2e0124913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution">
+      <UniqueIdentifier>{205174d5-9a82-4d1e-a28b-f06452ff9282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GEMM">
+      <UniqueIdentifier>{a0acffb6-efa3-40a6-a18b-6724ab9ccd35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Loop">
+      <UniqueIdentifier>{799827cf-d002-4b2d-a60f-691101dcf6ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core">
+      <UniqueIdentifier>{0704c0e6-e398-47de-90fb-1266074affc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft">
+      <UniqueIdentifier>{8e004e25-35ed-4c3d-886b-2e76e2d540e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\1D">
+      <UniqueIdentifier>{18db42c4-1829-46ba-851a-84cb623da7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\1D\FFT">
+      <UniqueIdentifier>{5ac10a18-a952-4e51-a819-13321bfe3a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\1D\IFFT">
+      <UniqueIdentifier>{5d6d7806-2fd7-4439-96cf-324e4564d4cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\2D">
+      <UniqueIdentifier>{11430a43-2004-4937-9c58-34324a5265c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\2D\FFT">
+      <UniqueIdentifier>{13825c43-6dd9-427e-a401-c1db5d815acf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fft\2D\IFFT">
+      <UniqueIdentifier>{2bdb4a53-4d9e-442a-949c-3ed5ccfd4a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\utils">
+      <UniqueIdentifier>{e75c9315-bb64-4dd4-9626-24a40257b054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\nn">
+      <UniqueIdentifier>{30e2851d-fb40-4050-80ce-89eb5f3b7d3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\nn\operators">
+      <UniqueIdentifier>{59d650c7-faf0-4799-9aaf-bdd9287e3015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process">
+      <UniqueIdentifier>{83331e15-3755-423f-9d34-a0df645c3cd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\transpose">
+      <UniqueIdentifier>{2a16b3c1-cf77-4b70-9aa6-0a99b28e5d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\store_type_convert">
+      <UniqueIdentifier>{10793b1d-7315-4fb2-8a63-5e4f2e81ad60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\channel_alteration">
+      <UniqueIdentifier>{efb7f632-df54-4b3e-9e4a-a95c1394b6c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Dot product">
+      <UniqueIdentifier>{be572e14-bf9a-4cc7-81cd-ff513e45861a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\type_statistics">
+      <UniqueIdentifier>{2c2fadfb-89e3-4b08-b2fa-3807f40d076f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution\slide_window">
+      <UniqueIdentifier>{6b82e6a2-7b23-4879-b008-a491c5f77e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations\Matrix">
+      <UniqueIdentifier>{55325d32-ab22-49e1-932f-f9dc19ab2b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution\slide_window\fp16">
+      <UniqueIdentifier>{bf14c756-06e5-4520-9669-877d48996507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution\slide_window\fp32">
+      <UniqueIdentifier>{1f4462a7-7efc-4739-8428-bc5b53f5853f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution\slide_window\fp64">
+      <UniqueIdentifier>{ab1e778a-d44d-43b2-bb36-a54cdcb26b0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\type_cast">
+      <UniqueIdentifier>{5c9c1b91-c7ed-4ce0-ac48-fd9639f4b209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_calculations\Vector">
+      <UniqueIdentifier>{dd15b300-bfd8-4137-9168-5764f68194ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\basic_process\reverse">
+      <UniqueIdentifier>{7c7c16b2-6cf9-4b7c-abf8-f5c061884019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GEMM\large_squares">
+      <UniqueIdentifier>{a7dcea51-f94c-49df-be78-69cf8a43c0d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GEMM\extreme_shapes">
+      <UniqueIdentifier>{62f4596b-1bd0-49fc-a468-07fa06192364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\convolution\im2col">
+      <UniqueIdentifier>{e27de5b8-2da5-4b22-81bb-22588aa28d62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Dot product\fp32">
+      <UniqueIdentifier>{c084d4e5-f7f8-4796-bc9d-94282fb83c6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Dot product\fp16">
+      <UniqueIdentifier>{5c83b66c-c9e8-43a9-8a4a-c861d83c1fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Dot product\fp64">
+      <UniqueIdentifier>{15852544-5676-433d-8732-ba8ee76d3dad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\channel_alteration\MatArray_channel_sum.h">
+      <Filter>头文件\basic_process\channel_alteration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\transpose\transpose.cuh">
+      <Filter>头文件\basic_process\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\transpose\transpose.h">
+      <Filter>头文件\basic_process\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\float_half_convert.h">
+      <Filter>头文件\basic_process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\reductions.cuh">
+      <Filter>头文件\basic_process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\type_statistics\maximum.h">
+      <Filter>头文件\basic_process\type_statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\type_statistics\minimum.h">
+      <Filter>头文件\basic_process\type_statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\type_statistics\summing.h">
+      <Filter>头文件\basic_process\type_statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\classes_util.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\core_types.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\matrix.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\MatrixArray.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\store_types.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\vector.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\utils\decx_utils_functions.h">
+      <Filter>头文件\core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\utils\decx_utils_macros.h">
+      <Filter>头文件\core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\basic.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\basic_dllexport.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\compile_params.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\configuration.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\defines.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\error.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\include.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\vector_defines.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\complex_dev_funcs.cuh">
+      <Filter>头文件\fft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\fft_utils.cuh">
+      <Filter>头文件\fft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\sort_and_chart.cuh">
+      <Filter>头文件\fft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\FFT1D.h">
+      <Filter>头文件\fft\1D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\FFT1D_sub_funcs.h">
+      <Filter>头文件\fft\1D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\kernel.cuh">
+      <Filter>头文件\fft\1D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\IFFT1D.h">
+      <Filter>头文件\fft\1D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\IFFT1D_sub_funcs.h">
+      <Filter>头文件\fft\1D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\kernel.cuh">
+      <Filter>头文件\fft\1D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\FFT2D.h">
+      <Filter>头文件\fft\2D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\FFT2D_sub_funcs.h">
+      <Filter>头文件\fft\2D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\kernel.cuh">
+      <Filter>头文件\fft\2D\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\IFFT2D.h">
+      <Filter>头文件\fft\2D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\IFFT2D_sub_funcs.h">
+      <Filter>头文件\fft\2D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\kernel.cuh">
+      <Filter>头文件\fft\2D\IFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\handles\decx_handles.h">
+      <Filter>头文件\handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\max_pooling.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\operators.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\ReLU.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\sigmoid.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\tanh.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\allocators.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\max_pooling.cuh">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\nn\operators\nn_Conv2D.h">
+      <Filter>头文件\nn\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Add_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Div_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Mul_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\operators.h">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Sub_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\GPU_Matrix.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\GPU_MatrixArray.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\GPU_Vector.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv2.h">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv3_macros.h">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv_utils.h">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2.cuh">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignore_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_large_kernel.h">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_large_kernel.cuh">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fma_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fms_kernel.cuh">
+      <Filter>头文件\basic_calculations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\type_cast\Matrix2Vector.h">
+      <Filter>头文件\basic_process\type_cast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_add.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_divide.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_fma.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_fms.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_multiply.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\matrix\cuda_subtract.h">
+      <Filter>头文件\basic_calculations\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_add.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_divide.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_fms.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_multiply.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_fma.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_subtract.h">
+      <Filter>头文件\basic_calculations\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cpu_rev.h">
+      <Filter>头文件\basic_process\reverse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cuda_rev.cuh">
+      <Filter>头文件\basic_process\reverse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM.cuh">
+      <Filter>头文件\GEMM\large_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM.h">
+      <Filter>头文件\GEMM\large_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM3.h">
+      <Filter>头文件\GEMM\large_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM3_macros.h">
+      <Filter>头文件\GEMM\large_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\extreme_shapes\GEMM_long_linear_region.cuh">
+      <Filter>头文件\GEMM\extreme_shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\GEMM\CUDA\extreme_shapes\GEMM_long_Lr.h">
+      <Filter>头文件\GEMM\extreme_shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\im2col.cuh">
+      <Filter>头文件\convolution\im2col</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\learningcpp\test\DECX\DECX\classes\GPU_Tensor.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\conv2_mk_im2col.h">
+      <Filter>头文件\convolution\im2col</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\eq_GEMM.cuh">
+      <Filter>头文件\convolution\im2col</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\tensor.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\classes\TensorArray.h">
+      <Filter>头文件\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\conv_flags.h">
+      <Filter>头文件\convolution</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_mc.h">
+      <Filter>头文件\convolution\slide_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\rearrangement.h">
+      <Filter>头文件\convolution</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignored_fp16_MK.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignored_fp16_SK.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_MK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_SK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_SK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_MK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_MK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_SK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_MK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_SK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_MK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_SK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_MK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_SK_fp32.h">
+      <Filter>头文件\convolution\slide_window\fp32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_MK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_SK_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_fp16.h">
+      <Filter>头文件\convolution\slide_window\fp16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\Dot product\CUDA\Kdot.cuh">
+      <Filter>头文件\Dot product</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\Dot product\CUDA\fp32\dot_fp32.h">
+      <Filter>头文件\Dot product\fp16</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="DECX_CUDA.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DECX_cuda.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
