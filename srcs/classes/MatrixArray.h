@@ -224,6 +224,8 @@ void decx::_MatrixArray<float>::_attribute_assign(uint _width, uint _height, uin
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_4B_) * _MATRIX_ALIGN_4B_;
 
@@ -243,6 +245,8 @@ void decx::_MatrixArray<int>::_attribute_assign(uint _width, uint _height, uint 
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_4B_) * _MATRIX_ALIGN_4B_;
 
@@ -262,6 +266,8 @@ void decx::_MatrixArray<double>::_attribute_assign(uint _width, uint _height, ui
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_8B_) * _MATRIX_ALIGN_8B_;
 
@@ -281,6 +287,8 @@ void decx::_MatrixArray<de::Half>::_attribute_assign(uint _width, uint _height, 
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_2B_) * _MATRIX_ALIGN_2B_;
 
@@ -300,6 +308,8 @@ void decx::_MatrixArray<uchar>::_attribute_assign(uint _width, uint _height, uin
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_1B_) * _MATRIX_ALIGN_1B_;
 
@@ -319,6 +329,8 @@ void decx::_MatrixArray<de::CPf>::_attribute_assign(uint _width, uint _height, u
     this->width = _width;
     this->height = _height;
     this->ArrayNumber = MatrixNum;
+    
+    this->_store_type = flag;
 
     this->pitch = decx::utils::ceil<size_t>(_width, _MATRIX_ALIGN_8B_) * _MATRIX_ALIGN_8B_;
 
