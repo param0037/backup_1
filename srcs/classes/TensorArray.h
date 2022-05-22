@@ -1,7 +1,7 @@
 /**
 *    ---------------------------------------------------------------------
 *    Author : Wayne Anderson
-*   Date   : 2021.04.16
+*    Date   : 2021.04.16
 *    ---------------------------------------------------------------------
 *    This is a part of the open source program named "DECX", copyright c Wayne,
 *    2021.04.16
@@ -61,18 +61,18 @@ namespace de
 *             <-dpitch->
 *            [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] T            T
 *            [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] |            |
-*    0        [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] |            |
-*            ...                                     ...            |    height    |    hpitch(2x)
-*            ...                                     ...            |            |
-*            ...                                     ...            |            |
+*    0       [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] |            |
+*            ...                                     ...         |    height  |    hpitch(2x)
+*            ...                                     ...         |            |
+*            ...                                     ...         |            |
 *       ___> [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] _            _
 *            [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]]
 *            [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]]
-*    1        [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]]
+*    1       [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]]
 *            ...                                     ...
 *            ...                                     ...
 *            ...                                     ...
-*       ___> [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]] 
+*       ___> [[x x x...] [x x x...] ... ...[x x x...] [0 0 0 0]]
 *    .
 *    .
 *    .
@@ -88,6 +88,15 @@ namespace decx
     template <typename T>
     class _TensorArray : public de::TensorArray<T>
     {
+    private:
+        void _attribute_assign(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int store_type);
+
+
+        void alloc_data_space();
+
+
+        void re_alloc_data_space();
+
     public:
         uint width,
              height,
@@ -129,10 +138,13 @@ namespace decx
         _TensorArray();
 
 
-        void _attribute_assign(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int store_type);
-
-
         _TensorArray(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int store_type);
+
+
+        void construct(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int flag);
+
+
+        void re_construct(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int flag);
 
 
         virtual uint Width() { return this->width; }
@@ -306,6 +318,104 @@ void decx::_TensorArray<double>::_attribute_assign(const uint _width, const uint
 
 
 
+template <typename T>
+void decx::_TensorArray<T>::alloc_data_space()
+{
+    switch (this->_store_type)
+    {
+    case decx::DATA_STORE_TYPE::Page_Locked:
+        if (decx::alloc::_host_fixed_page_malloc<T>(&this->TensArr, this->total_bytes)) {
+            Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+            exit(-1);
+        }
+        break;
+
+    case decx::DATA_STORE_TYPE::Page_Default:
+        if (decx::alloc::_host_virtual_page_malloc<T>(&this->TensArr, this->total_bytes)) {
+            Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+            exit(-1);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    memset(this->TensArr.ptr, 0, this->total_bytes);
+
+    if (decx::alloc::_host_virtual_page_malloc<T*>(&this->TensptrArr, this->tensor_num * sizeof(T*))) {
+        Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+        return;
+    }
+    this->TensptrArr.ptr[0] = this->TensArr.ptr;
+    for (uint i = 1; i < this->tensor_num; ++i) {
+        this->TensptrArr.ptr[i] = this->TensptrArr.ptr[i - 1] + this->_gap;
+    }
+}
+
+
+
+template <typename T>
+void decx::_TensorArray<T>::re_alloc_data_space()
+{
+    switch (this->_store_type)
+    {
+    case decx::DATA_STORE_TYPE::Page_Locked:
+        if (decx::alloc::_host_fixed_page_realloc<T>(&this->TensArr, this->total_bytes)) {
+            Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+            exit(-1);
+        }
+        break;
+
+    case decx::DATA_STORE_TYPE::Page_Default:
+        if (decx::alloc::_host_virtual_page_realloc<T>(&this->TensArr, this->total_bytes)) {
+            Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+            exit(-1);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    memset(this->TensArr.ptr, 0, this->total_bytes);
+
+    if (decx::alloc::_host_virtual_page_realloc<T*>(&this->TensptrArr, this->tensor_num * sizeof(T*))) {
+        Print_Error_Message(4, "Fail to allocate memory for TensorArray on host\n");
+        return;
+    }
+    this->TensptrArr.ptr[0] = this->TensArr.ptr;
+    for (uint i = 1; i < this->tensor_num; ++i) {
+        this->TensptrArr.ptr[i] = this->TensptrArr.ptr[i - 1] + this->_gap;
+    }
+}
+
+
+
+template <typename T>
+void decx::_TensorArray<T>::construct(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int store_type)
+{
+    this->_attribute_assign(_width, _height, _depth, _tensor_num, store_type);
+
+    this->alloc_data_space();
+}
+
+
+
+template <typename T>
+void decx::_TensorArray<T>::re_construct(const uint _width, const uint _height, const uint _depth, const uint _tensor_num, const int store_type)
+{
+    if (this->width != _width || this->height != _height || this->depth != _depth || 
+        this->tensor_num != _tensor_num || this->_store_type != store_type) 
+    {
+        this->_attribute_assign(_width, _height, _depth, _tensor_num, store_type);
+
+        this->re_alloc_data_space();
+    }
+}
+
+
+
 template<typename T>
 decx::_TensorArray<T>::_TensorArray()
 {
@@ -319,30 +429,7 @@ decx::_TensorArray<T>::_TensorArray(const uint _width, const uint _height, const
 {
     this->_attribute_assign(_width, _height, _depth, _tensor_num, store_type);
 
-    switch (store_type)
-    {
-    case decx::DATA_STORE_TYPE::Page_Locked:
-        decx::alloc::_host_fixed_page_malloc<T>(&this->TensArr, this->total_bytes);
-        break;
-
-    case decx::DATA_STORE_TYPE::Page_Default:
-        decx::alloc::_host_virtual_page_malloc<T>(&this->TensArr, this->total_bytes);
-        break;
-
-    default:
-        break;
-    }
-
-    memset(this->TensArr.ptr, 0, this->total_bytes);
-
-    if (decx::alloc::_host_virtual_page_malloc<T*>(&this->TensptrArr, _tensor_num * sizeof(T*))) {
-        Print_Error_Message(4, "Fail to allocate memory for pointer array on host\n");
-        return;
-    }
-    this->TensptrArr.ptr[0] = this->TensArr.ptr;
-    for (uint i = 1; i < _tensor_num; ++i) {
-        this->TensptrArr.ptr[i] = this->TensptrArr.ptr[i - 1] + this->_gap;
-    }
+    this->alloc_data_space();
 }
 
 
