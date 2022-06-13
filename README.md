@@ -1,7 +1,5 @@
 # backup_1
 Config files for my GitHub profile.
-# backup_1
-Config files for my GitHub profile.
 # 宗旨
 ## 本项目本来是我学习CUDA和cpu并发编程的记录。如果您是正在做毕设的大学生，不想配置主流复杂的BLAS库，并且在C++的层面编程，不妨试一下我写的BLAS库，希望可以帮到您。
 
