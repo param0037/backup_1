@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="allocators">
+      <UniqueIdentifier>{667ace73-48d7-4499-b888-7ffc1cfc7e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="memory_management">
+      <UniqueIdentifier>{046b07d6-ea80-4394-98f7-b84b38f88be6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\srcs\core\allocators\aligned_allocators.h">
+      <Filter>allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\allocators\allocator.h">
+      <Filter>allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\allocators\deallocator.h">
+      <Filter>allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemBlock.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemChunk_D.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemChunk_Hf.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemChunk_Hv.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\Memory_pool.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemoryPool_D.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemoryPool_Hf.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\MemoryPool_Hv.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\core\memory_management\internal_types.h">
+      <Filter>memory_management</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CUDAPropsPath Condition="'$(CUDAPropsPath)'==''">$(VCTargetsPath)\BuildCustomizations</CUDAPropsPath>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\srcs\basic_calculations\operators\Add_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Div_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fma_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Fms_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_add.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_divide.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_fma.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_fms.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_multiply.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Matrix\cuda_subtract.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Mul_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\operators.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Sub_kernel.cuh" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_add.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_divide.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_fma.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_fms.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_multiply.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Tensor\cuda_subtract.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_add.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_divide.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_fma.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_fms.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_multiply.h" />
+    <ClInclude Include="..\srcs\basic_calculations\operators\Vector\cuda_subtract.h" />
+    <ClInclude Include="..\srcs\basic_process\channel_alteration\MatArray_channel_sum.h" />
+    <ClInclude Include="..\srcs\basic_process\extend\CUDA\GPU_Matrix_extend.h" />
+    <ClInclude Include="..\srcs\basic_process\extend\CUDA\sym_ext.cuh" />
+    <ClInclude Include="..\srcs\basic_process\float_half_convert.h" />
+    <ClInclude Include="..\srcs\basic_process\reductions.cuh" />
+    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cpu_rev.h" />
+    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cuda_rev.cuh" />
+    <ClInclude Include="..\srcs\basic_process\transpose\transpose.cuh" />
+    <ClInclude Include="..\srcs\basic_process\transpose\transpose.h" />
+    <ClInclude Include="..\srcs\basic_process\type_cast\Matrix2Vector.h" />
+    <ClInclude Include="..\srcs\basic_process\type_statistics\maximum.h" />
+    <ClInclude Include="..\srcs\basic_process\type_statistics\minimum.h" />
+    <ClInclude Include="..\srcs\basic_process\type_statistics\summing.h" />
+    <ClInclude Include="..\srcs\classes\classes_util.h" />
+    <ClInclude Include="..\srcs\classes\core_types.h" />
+    <ClInclude Include="..\srcs\classes\GPU_Matrix.h" />
+    <ClInclude Include="..\srcs\classes\GPU_MatrixArray.h" />
+    <ClInclude Include="..\srcs\classes\GPU_Tensor.h" />
+    <ClInclude Include="..\srcs\classes\GPU_TensorArray.h" />
+    <ClInclude Include="..\srcs\classes\GPU_Vector.h" />
+    <ClInclude Include="..\srcs\classes\Matrix.h" />
+    <ClInclude Include="..\srcs\classes\MatrixArray.h" />
+    <ClInclude Include="..\srcs\classes\store_types.h" />
+    <ClInclude Include="..\srcs\classes\Tensor.h" />
+    <ClInclude Include="..\srcs\classes\TensorArray.h" />
+    <ClInclude Include="..\srcs\classes\Vector.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\conv_flags.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\conv2_mk_im2col.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\eq_GEMM.cuh" />
+    <ClInclude Include="..\srcs\convolution\CUDA\im2col\im2col.cuh" />
+    <ClInclude Include="..\srcs\convolution\CUDA\rearrangement.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2.cuh" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv2.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_large_kernel.cuh" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_large_kernel.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\conv2_mc.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv3_macros.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\Conv_utils.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignore_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignored_fp16_MK.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_ignored_fp16_SK.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_MK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\conv2_border_const_SK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_MK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_const_SK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_MK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp16\dev_conv2_border_ignored_SK_fp16.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_MK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_ignored_SK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_MK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\conv2_border_const_SK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_MK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_ignored_SK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_MK_fp32.h" />
+    <ClInclude Include="..\srcs\convolution\CUDA\slide_window\fp32\dev_conv2_border_const_SK_fp32.h" />
+    <ClInclude Include="..\srcs\core\allocators.h" />
+    <ClInclude Include="..\srcs\core\basic.h" />
+    <ClInclude Include="..\srcs\core\basic_dllexport.h" />
+    <ClInclude Include="..\srcs\core\compile_params.h" />
+    <ClInclude Include="..\srcs\core\configs\config.h" />
+    <ClInclude Include="..\srcs\core\configuration.h" />
+    <ClInclude Include="..\srcs\core\defines.h" />
+    <ClInclude Include="..\srcs\core\error.h" />
+    <ClInclude Include="..\srcs\core\include.h" />
+    <ClInclude Include="..\srcs\core\utils\decx_utils_functions.h" />
+    <ClInclude Include="..\srcs\core\utils\decx_utils_macros.h" />
+    <ClInclude Include="..\srcs\core\vector_defines.h" />
+    <ClInclude Include="..\srcs\cv\cv_classes\cv_classes.h" />
+    <ClInclude Include="..\srcs\cv\cv_classes\cv_cls_MFuncs.h" />
+    <ClInclude Include="..\srcs\cv\NLM\NLM_BGR.cuh" />
+    <ClInclude Include="..\srcs\cv\NLM\NLM.h" />
+    <ClInclude Include="..\srcs\cv\NLM\NLM_gray.cuh" />
+    <ClInclude Include="..\srcs\cv\NLM\NLM_device_functions.cuh" />
+    <ClInclude Include="..\srcs\Dot product\CUDA\fp32\dot_fp32.h" />
+    <ClInclude Include="..\srcs\Dot product\CUDA\Kdot.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\FFT1D.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\FFT1D_sub_funcs.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\FFT\kernel.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\IFFT1D.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\IFFT1D_sub_funcs.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\1D\IFFT\kernel.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\FFT2D.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\FFT2D_sub_funcs.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\FFT\kernel.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\IFFT2D.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\IFFT2D_sub_funcs.h" />
+    <ClInclude Include="..\srcs\fft\CUDA\2D\IFFT\kernel.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\complex_dev_funcs.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\fft_utils.cuh" />
+    <ClInclude Include="..\srcs\fft\CUDA\sort_and_chart.cuh" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\extreme_shapes\GEMM_long_linear_region.cuh" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\extreme_shapes\GEMM_long_Lr.h" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\GEMM_kernel_def.cuh" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM.cuh" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM.h" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM3.h" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM3_macros.h" />
+    <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM_nonuniform.cuh" />
+    <ClInclude Include="..\srcs\handles\decx_handles.h" />
+    <ClInclude Include="..\srcs\nn\operators\max_pooling.cuh" />
+    <ClInclude Include="..\srcs\nn\operators\max_pooling.h" />
+    <ClInclude Include="..\srcs\nn\operators\nn_Conv2D.h" />
+    <ClInclude Include="..\srcs\nn\operators\operators.h" />
+    <ClInclude Include="..\srcs\nn\operators\ReLU.h" />
+    <ClInclude Include="..\srcs\nn\operators\sigmoid.h" />
+    <ClInclude Include="..\srcs\nn\operators\tanh.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="DECX_CUDA.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DECX_cuda.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{67F4B1FF-7AC6-4CA4-AA99-70B09F7214D7}</ProjectGuid>
+    <RootNamespace>cudaTensorCoreGemm_vs2019</RootNamespace>
+    <ProjectName>DECX_CUDA</ProjectName>
+    <CudaToolkitCustomDir />
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 10.2.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IntDir>$(Platform)/$(Configuration)/</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
+    <OutDir>..\bin\x64</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_MBCS;_DECX_CUDA_CODES_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CudaToolkitDir)/include;../../common/inc;./</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;E:\DECX_world\bin\x64\DECX_allocation.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CudaToolkitLibDir);../../common/lib/$(PlatformName)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)/DECX_CUDA.dll</OutputFile>
+    </Link>
+    <CudaCompile>
+      <CodeGeneration>compute_75,sm_75</CodeGeneration>
+      <AdditionalOptions>-Xcompiler "/wd 4819" %(AdditionalOptions)</AdditionalOptions>
+      <Include>./;../../common/inc</Include>
+      <Defines>WIN32</Defines>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+    </Link>
+    <CudaCompile>
+      <Runtime>MTd</Runtime>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <OpenMPSupport Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <CudaCompile>
+      <Runtime>MT</Runtime>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 10.2.targets" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Reactor_Commands="-compression 1 -antitamp 1 -control_flow_obfuscation 1 -flow_level 9" Reactor_Configuration="ALL" Reactor_Deploy="0" Reactor_Enabled="0" Reactor_Output="" Reactor_Project="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
