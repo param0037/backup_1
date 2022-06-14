@@ -228,7 +228,7 @@ void cu_NLM_normalization_BGR(float* denoised, float3 coef[4], uchar4* res)
 }
 
 
-
+// keep alpha channel
 __device__
 void cu_NLM_normalization_BGR_kpal(float* denoised, float3 coef[4], uchar4* res, uchar4* origin_data)
 {
