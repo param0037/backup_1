@@ -7,11 +7,12 @@
 *    2021.04.16
 */
 
-#pragma once
+#ifndef _TRANSPOSE_H_
+#define _TRANSPOSE_H_
 
 
-#include "../../core/basic.h"
-#include "../../classes/GPU_Matrix.h"
+#include "../../../core/basic.h"
+#include "../../../classes/GPU_Matrix.h"
 #ifndef GNU_CPUcodes
 #include "transpose.cuh"
 #endif
@@ -207,3 +208,6 @@ de::DH de::cuda::Transpose(GPU_Matrix<de::Half>& src, GPU_Matrix<de::Half>& dst)
 
     return handle;
 }
+
+
+#endif
