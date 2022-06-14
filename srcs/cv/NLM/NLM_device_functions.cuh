@@ -229,6 +229,19 @@ void cu_NLM_normalization_BGR(float* denoised, float3 coef[4], uchar4* res)
 
 
 
+__device__
+void cu_NLM_normalization_BGR_kpal(float* denoised, float3 coef[4], uchar4* res, uchar4* origin_data)
+{
+    for (int i = 0; i < 4; ++i) {
+        res[i].x = (uchar)(__fdividef(denoised[i * 3], coef[i].x));
+        res[i].y = (uchar)(__fdividef(denoised[i * 3 + 1], coef[i].y));
+        res[i].z = (uchar)(__fdividef(denoised[i * 3 + 2], coef[i].z));
+        res[i].w = origin_data[i].w;
+    }
+}
+
+
+
 __device__ __inline__
 void cu_NLM_normalization_gray16(float* denoised, float* coef, uchar* res)
 {
