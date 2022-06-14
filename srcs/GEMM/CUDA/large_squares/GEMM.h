@@ -70,11 +70,6 @@ de::DH de::cuda::GEMM(de::Matrix<float>& A, de::Matrix<float>& B, de::Matrix<flo
         return handle;
     }
 
-    if (_A.height != _dst.height || _B.width != _dst.width) {
-        decx::GEMM_DimNMatch(&handle);
-        return handle;
-    }
-
     _dst.re_construct(_B.width, _A.height, decx::DATA_STORE_TYPE::Page_Locked);
 
     int pitch_A,    // x16
@@ -156,7 +151,7 @@ de::DH de::cuda::GEMM(de::Matrix<float>& A, de::Matrix<float>& B, de::Matrix<flo
         return handle;
     }
 
-    if (_A.height != _dst.height || _B.width != _dst.width) {
+    if (_A.height != _C.height || _B.width != _C.width) {
         decx::GEMM_DimNMatch(&handle);
         return handle;
     }
@@ -246,11 +241,6 @@ de::DH de::cuda::GEMM(de::Matrix<de::Half>& A, de::Matrix<de::Half>& B, de::Matr
         return handle;
     }
 
-    if (_A.height != _dst.height || _B.width != _dst.width) {
-        decx::GEMM_DimNMatch(&handle);
-        return handle;
-    }
-
     _dst.re_construct(_B.width, _A.height, decx::DATA_STORE_TYPE::Page_Locked);
 
     int pitch_A,    // x16
@@ -330,7 +320,7 @@ de::DH de::cuda::GEMM(de::Matrix<de::Half>& A, de::Matrix<de::Half>& B, de::Matr
         return handle;
     }
 
-    if (_A.height != _dst.height || _B.width != _dst.width) {
+    if (_A.height != _C.height || _B.width != _C.width) {
         decx::GEMM_DimNMatch(&handle);
         return handle;
     }
@@ -421,12 +411,6 @@ de::DH de::cuda::GEMM(de::GPU_Matrix<float>& A, de::GPU_Matrix<float>& B, de::GP
         decx::MDim_Not_Matching(&handle);
         return handle;
     }
-
-    if (_A.height != _dst.height || _B.width != _dst.width) {
-        decx::GEMM_DimNMatch(&handle);
-        return handle;
-    }
-
     _dst.re_construct(_B.width, _A.height);
 
     cudaStream_t S;
@@ -553,11 +537,6 @@ de::DH de::cuda::GEMM(de::GPU_Matrix<float>& A, de::GPU_Matrix<float>& B, de::GP
         return handle;
     }
 
-    if (_A.height != _dst.height || _B.width != _dst.width) {
-        decx::GEMM_DimNMatch(&handle);
-        return handle;
-    }
-
     _dst.re_construct(_B.width, _A.height);
 
     cudaStream_t S;
@@ -618,11 +597,6 @@ de::DH de::cuda::GEMM(de::GPU_Matrix<de::Half>& A, de::GPU_Matrix<de::Half>& B, 
 
     if (_A.width != _B.height) {
         decx::MDim_Not_Matching(&handle);
-        return handle;
-    }
-
-    if (_A.height != _dst.height || _B.width != _dst.width) {
-        decx::GEMM_DimNMatch(&handle);
         return handle;
     }
 
