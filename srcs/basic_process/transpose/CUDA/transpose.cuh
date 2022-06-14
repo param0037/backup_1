@@ -7,9 +7,10 @@
 *    2021.04.16
 */
 
-#pragma once
+#ifndef _CUDA_TRANSPOSE_CUH_
+#define _CUDA_TRANSPOSE_CUH_
 
-#include "../../core/basic.h"
+#include "../../../core/basic.h"
 
 
 
@@ -199,3 +200,6 @@ void cu_transpose_vec2x2(double2* src, double2* dst, const uint width, const uin
     }
 #endif
 }
+
+
+#endif
