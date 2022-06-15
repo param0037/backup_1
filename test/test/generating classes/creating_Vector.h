@@ -3,23 +3,12 @@
 
 #pragma comment(lib, "../../../bin/x64/DECX_CUDA.lib")
 #pragma comment(lib, "../../../bin/x64/DECX_cpu.lib")
-#pragma comment(lib, "../../../bin/x64/DECX_allocation.lib")
-#pragma comment(lib, "../../../bin/x64/DECX.lib")
 #include "../../../APIs/DECX.h"
 #include <iostream>
 #include <iomanip>
-
+#include "../utils/printf.h"
 
 using namespace std;
-
-
-template <typename T>
-void print_line(de::Vector<T>* src, const uint x1, const uint x2)
-{
-    for (int i = x1; i < x2; ++i) {
-        cout << setw(5) << src->index(i);
-    }
-}
 
 
 
