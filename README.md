@@ -3,6 +3,9 @@ Config files for my GitHub profile.
 # 宗旨
 ## 本项目本来是我学习CUDA和cpu并发编程的记录。如果您是正在做毕设的大学生，不想配置主流复杂的BLAS库，并且在C++的层面编程，不妨试一下我写的BLAS库，希望可以帮到您。
 
+# 警告
+## 目前只适配了Windows端
+
 # 做了以下更新：
 ## 1. 重写了方阵矩阵乘的CUDA内核，速度大幅度提升。
 ## 2. 重写了二维滑窗卷积CUDA内核，优化了速度。
@@ -19,6 +22,9 @@ Config files for my GitHub profile.
 
 # purpose
 ## Originally, I create this project to store some of my notes when I was learning CUDA and CPU concurrency programming. If you are a collage student who is busy with your graduation projects, and you are somehow not allowed to use or tired to config the mainstream BLAS library, maybe it's a good way to have a try on my library. I hope I can help you.
+
+# WARNINGS
+## Currently the source codes only work on Windows.
 
 # updates
 ## 1. I rewrote the CUDA kernel used in matrix multiplication. The speed is boost dramatically.
