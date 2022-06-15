@@ -156,12 +156,6 @@
     <ClInclude Include="..\srcs\basic_process\channel_alteration\MatArray_channel_sum.h">
       <Filter>头文件\basic_process\channel_alteration</Filter>
     </ClInclude>
-    <ClInclude Include="..\srcs\basic_process\transpose\transpose.cuh">
-      <Filter>头文件\basic_process\transpose</Filter>
-    </ClInclude>
-    <ClInclude Include="..\srcs\basic_process\transpose\transpose.h">
-      <Filter>头文件\basic_process\transpose</Filter>
-    </ClInclude>
     <ClInclude Include="..\srcs\basic_process\float_half_convert.h">
       <Filter>头文件\basic_process</Filter>
     </ClInclude>
@@ -344,12 +338,6 @@
     </ClInclude>
     <ClInclude Include="..\srcs\basic_process\type_cast\Matrix2Vector.h">
       <Filter>头文件\basic_process\type_cast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cpu_rev.h">
-      <Filter>头文件\basic_process\reverse</Filter>
-    </ClInclude>
-    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cuda_rev.cuh">
-      <Filter>头文件\basic_process\reverse</Filter>
     </ClInclude>
     <ClInclude Include="..\srcs\GEMM\CUDA\large_squares\GEMM.cuh">
       <Filter>头文件\GEMM\large_squares</Filter>
@@ -566,6 +554,18 @@
     </ClInclude>
     <ClInclude Include="..\srcs\GEMM\CUDA\GEMM_kernel_def.cuh">
       <Filter>头文件\GEMM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\cv\NLM\NLM_BGR_keep_alpha.cuh">
+      <Filter>头文件\cv\NLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\transpose\CUDA\transpose.cuh">
+      <Filter>头文件\basic_process\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\transpose\CUDA\transpose.h">
+      <Filter>头文件\basic_process\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\srcs\basic_process\reverse\CUDA\Mat_cuda_rev.cuh">
+      <Filter>头文件\basic_process\reverse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

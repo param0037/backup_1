@@ -44,10 +44,9 @@
     <ClInclude Include="..\srcs\basic_process\extend\CUDA\sym_ext.cuh" />
     <ClInclude Include="..\srcs\basic_process\float_half_convert.h" />
     <ClInclude Include="..\srcs\basic_process\reductions.cuh" />
-    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cpu_rev.h" />
-    <ClInclude Include="..\srcs\basic_process\reverse\Mat_cuda_rev.cuh" />
-    <ClInclude Include="..\srcs\basic_process\transpose\transpose.cuh" />
-    <ClInclude Include="..\srcs\basic_process\transpose\transpose.h" />
+    <ClInclude Include="..\srcs\basic_process\reverse\CUDA\Mat_cuda_rev.cuh" />
+    <ClInclude Include="..\srcs\basic_process\transpose\CUDA\transpose.cuh" />
+    <ClInclude Include="..\srcs\basic_process\transpose\CUDA\transpose.h" />
     <ClInclude Include="..\srcs\basic_process\type_cast\Matrix2Vector.h" />
     <ClInclude Include="..\srcs\basic_process\type_statistics\maximum.h" />
     <ClInclude Include="..\srcs\basic_process\type_statistics\minimum.h" />
@@ -117,6 +116,7 @@
     <ClInclude Include="..\srcs\cv\cv_classes\cv_cls_MFuncs.h" />
     <ClInclude Include="..\srcs\cv\NLM\NLM_BGR.cuh" />
     <ClInclude Include="..\srcs\cv\NLM\NLM.h" />
+    <ClInclude Include="..\srcs\cv\NLM\NLM_BGR_keep_alpha.cuh" />
     <ClInclude Include="..\srcs\cv\NLM\NLM_gray.cuh" />
     <ClInclude Include="..\srcs\cv\NLM\NLM_device_functions.cuh" />
     <ClInclude Include="..\srcs\Dot product\CUDA\fp32\dot_fp32.h" />
