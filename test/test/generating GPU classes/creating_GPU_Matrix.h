@@ -3,26 +3,13 @@
 
 #pragma comment(lib, "../../../bin/x64/DECX_CUDA.lib")
 #pragma comment(lib, "../../../bin/x64/DECX_cpu.lib")
-#pragma comment(lib, "../../../bin/x64/DECX_allocation.lib")
-#pragma comment(lib, "../../../bin/x64/DECX.lib")
 #include "../../../APIs/DECX.h"
 #include <iostream>
 #include <iomanip>
+#include "../utils/printf.h"
 
 
 using namespace std;
-
-
-template <typename T>
-void print_square(de::Matrix<T> *src, const uint x1, const uint x2, const uint y1, const uint y2)
-{
-    for (int i = x1; i < x2; ++i) {
-        for (int j = y1; j < y2; ++j) {
-            cout << setw(5) << src->index(i, j);
-        }
-        cout << endl;
-    }
-}
 
 
 
@@ -53,6 +40,8 @@ void generate_GPU_matrix(const uint W, const uint H, const int store_type)
 
     dev_A.release();
     A.release();
+
+    de::cuda::DECX_CUDA_exit();
 }
 
 
