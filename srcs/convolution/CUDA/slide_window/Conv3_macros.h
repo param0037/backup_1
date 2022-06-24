@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "../../../core/cudaStream_management/cudaStream_queue.h"
 
 #define conv3_kernel(kernel_name_1, kernel_name_2) {        \
 if (Dmem1->leading) {                                       \
@@ -37,7 +38,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                          \
         reinterpret_cast<__type*>(Dmem1->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,        \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),             \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                               \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                               \
                                                                                                                 \
     Dmem1->leading = true;                                                                                      \
     Dmem2->leading = false;                                                                                     \
@@ -46,7 +47,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                          \
         reinterpret_cast<__type*>(Dmem2->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,        \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),             \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                               \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                               \
                                                                                                                 \
     Dmem2->leading = true;                                                                                      \
     Dmem1->leading = false;                                                                                     \
@@ -60,7 +61,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<__type*>(Dmem1->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem1->leading = true;                                                                                    \
     Dmem2->leading = false;                                                                                    \
@@ -69,7 +70,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<__type*>(Dmem2->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem2->leading = true;                                                                                    \
     Dmem1->leading = false;                                                                                    \
@@ -83,7 +84,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         Dmem1->mem,                                                                                            \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem1->leading = true;                                                                                    \
     Dmem2->leading = false;                                                                                    \
@@ -92,7 +93,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         Dmem2->mem,                                                                                            \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem2->leading = true;                                                                                    \
     Dmem1->leading = false;                                                                                    \
@@ -106,7 +107,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         Dmem1->mem,                                                                                            \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem1->leading = true;                                                                                    \
     Dmem2->leading = false;                                                                                    \
@@ -115,7 +116,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         Dmem2->mem,                                                                                            \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),            \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem2->leading = true;                                                                                    \
     Dmem1->leading = false;                                                                                    \
@@ -134,7 +135,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<_type*>(Dmem1->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),            \
-        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]));                            \
+        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem1->leading = true;                                                                                    \
     Dmem2->leading = false;                                                                                    \
@@ -143,7 +144,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<_type*>(Dmem2->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),            \
-        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]));                            \
+        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem2->leading = true;                                                                                    \
     Dmem1->leading = false;                                                                                    \
@@ -161,7 +162,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<_type*>(Dmem1->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),            \
-        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem1->leading = true;                                                                                    \
     Dmem2->leading = false;                                                                                    \
@@ -170,7 +171,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                        \
         reinterpret_cast<_type*>(Dmem2->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),            \
-        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]));                            \
+        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                            \
                                                                                                             \
     Dmem2->leading = true;                                                                                    \
     Dmem1->leading = false;                                                                                    \
@@ -184,7 +185,7 @@ else {                                                                          
 #define conv3_main_loop_MemCpyHtoD_within_NB_MK(__type, __ele_num) {                                                    \
 for (int k = 0; k < kernel->height; ++k) {                                                                                \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,                                        \
-        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyHostToDevice, S[1]);    \
+        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;                                                                                        \
     offset_ker += kernel->pitch;                                                                                        \
 }                                                                                                                        \
@@ -193,7 +194,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                                    \
         reinterpret_cast<__type*>(Dmem1->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,                \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),                        \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                                        \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                                        \
                                                                                                                         \
     Dmem1->leading = true;                                                                                                \
     Dmem2->leading = false;                                                                                                \
@@ -202,7 +203,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                                    \
         reinterpret_cast<__type*>(Dmem2->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,                \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),                        \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));                                        \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));                                        \
                                                                                                                         \
     Dmem2->leading = true;                                                                                                \
     Dmem1->leading = false;                                                                                                \
@@ -214,7 +215,7 @@ else {                                                                          
 #define conv3_main_loop_MemCpyDtoD_within_NB_MK(__type, __ele_num) {                                                    \
 for (int k = 0; k < kernel->height; ++k) {                                                                                \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,                                        \
-        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyDeviceToDevice, S[1]);    \
+        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;                                                                                        \
     offset_ker += kernel->pitch;                                                                                        \
 }                                                                                                                        \
@@ -223,7 +224,7 @@ if (!Dmem1->_using) {                                                           
     checkCudaErrors(cudaMemcpy2DAsync(                                                                                    \
         reinterpret_cast<__type*>(Dmem1->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,                \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),                        \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                                        \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                                        \
                                                                                                                         \
     Dmem1->leading = true;                                                                                                \
     Dmem2->leading = false;                                                                                                \
@@ -232,7 +233,7 @@ else {                                                                          
     checkCudaErrors(cudaMemcpy2DAsync(                                                                                    \
         reinterpret_cast<__type*>(Dmem2->mem) + src_diff.x * Dsrc_alloc_dim->x * __ele_num + src_diff.y,                \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),                        \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));                                        \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));                                        \
                                                                                                                         \
     Dmem2->leading = true;                                                                                                \
     Dmem1->leading = false;                                                                                                \
@@ -244,7 +245,7 @@ else {                                                                          
 #define conv3_main_loop_MemCpyHtoD_exact_NB_MK(__type) {    \
 for (int k = 0; k < kernel->height; ++k) {    \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,    \
-        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyHostToDevice, S[1]);    \
+        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;    \
     offset_ker += kernel->pitch;    \
 }    \
@@ -253,7 +254,7 @@ if (!Dmem1->_using) {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         Dmem1->mem,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),    \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));    \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem1->leading = true;    \
     Dmem2->leading = false;    \
@@ -265,7 +266,7 @@ else {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         Dmem2->mem,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),    \
-        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]));    \
+        src->width * sizeof(__type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem2->leading = true;    \
     Dmem1->leading = false;    \
@@ -277,7 +278,7 @@ else {    \
 #define conv3_main_loop_MemCpyDtoD_exact_NB_MK(__type) {    \
 for (int k = 0; k < kernel->height; ++k) {    \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,    \
-        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyDeviceToDevice, S[1]);    \
+        kernel->width * sizeof(__type), sym_cpy_offset + offset_lin * sizeof(__type), cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;    \
     offset_ker += kernel->pitch;    \
 }    \
@@ -286,7 +287,7 @@ if (!Dmem1->_using) {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         Dmem1->mem,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),    \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));    \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem1->leading = true;    \
     Dmem2->leading = false;    \
@@ -298,7 +299,7 @@ else {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         Dmem2->mem,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(__type),    \
-        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]));    \
+        src->width * sizeof(__type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem2->leading = true;    \
     Dmem1->leading = false;    \
@@ -315,7 +316,7 @@ else {    \
 #define conv3_main_loop_MemCpyHtoD_BC_MK(_Hker_preset, _Wker_preset, _type, _ele_num) {    \
 for (int k = 0; k < kernel->height; ++k) {    \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,    \
-        kernel->width * sizeof(_type), sym_cpy_offset + offset_lin * sizeof(_type), cudaMemcpyHostToDevice, S[1]);    \
+        kernel->width * sizeof(_type), sym_cpy_offset + offset_lin * sizeof(_type), cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;    \
     offset_ker += kernel->pitch;    \
 }    \
@@ -324,7 +325,7 @@ if (!Dmem1->_using) {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         reinterpret_cast<_type*>(Dmem1->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),    \
-        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]));    \
+        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem1->leading = true;    \
     Dmem2->leading = false;    \
@@ -336,7 +337,7 @@ else {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         reinterpret_cast<_type*>(Dmem2->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),    \
-        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]));    \
+        src->width * sizeof(_type), src->height, cudaMemcpyHostToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem2->leading = true;    \
     Dmem1->leading = false;    \
@@ -353,7 +354,7 @@ else {    \
 #define conv3_main_loop_MemCpyDtoD_BC_MK(_Hker_preset, _Wker_preset, _type, _ele_num) {    \
 for (int k = 0; k < kernel->height; ++k) {    \
     cudaMemcpyToSymbolAsync(Const_Mem, kernel->MatptrArr.ptr[i + 1] + offset_ker,    \
-        kernel->width * sizeof(_type), sym_cpy_offset + offset_lin * sizeof(_type), cudaMemcpyDeviceToDevice, S[1]);    \
+        kernel->width * sizeof(_type), sym_cpy_offset + offset_lin * sizeof(_type), cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref());    \
     offset_lin += kernel->width;    \
     offset_ker += kernel->pitch;    \
 }    \
@@ -362,7 +363,7 @@ if (!Dmem1->_using) {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         reinterpret_cast<_type*>(Dmem1->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),    \
-        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]));    \
+        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem1->leading = true;    \
     Dmem2->leading = false;    \
@@ -374,7 +375,7 @@ else {    \
     checkCudaErrors(cudaMemcpy2DAsync(        \
         reinterpret_cast<_type*>(Dmem2->mem) + _Hker_preset * Dsrc_alloc_dim->x * _ele_num + _Wker_preset,    \
         Dsrc_alloc_dim->x * sizeof(float4), src->MatptrArr.ptr[i + 1], src->pitch * sizeof(_type),    \
-        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]));    \
+        src->width * sizeof(_type), src->height, cudaMemcpyDeviceToDevice, S[1]->get_raw_stream_ref()));    \
 \
     Dmem2->leading = true;    \
     Dmem1->leading = false;    \
@@ -392,13 +393,13 @@ for (int i = 0; i < src->ArrayNumber; ++i){                                     
         if (Dmem3->leading) {                                                                                                \
             checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[i - 1],                                                    \
                 dst->pitch * sizeof(_type), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(_type),        \
-                dst->height, cudaMemcpyDeviceToHost, S[2]));                                                                \
+                dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));                                                                \
             Dmem3->_using = true;                                                                                            \
         }                                                                                                                    \
         else {                                                                                                                \
             checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[i - 1],                                                    \
                 dst->pitch * sizeof(_type), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(_type),        \
-                dst->height, cudaMemcpyDeviceToHost, S[2]));                                                                \
+                dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));                                                                \
             Dmem4->_using = true;                                                                                            \
         }                                                                                                                    \
     }                                                                                                                        \
@@ -428,13 +429,13 @@ for (int i = 0; i < src->ArrayNumber; ++i){        \
         if (Dmem3->leading) {    \
             checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[i - 1],    \
                 dst->pitch * sizeof(_type), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(_type),    \
-                dst->height, cudaMemcpyDeviceToHost, S[2]));    \
+                dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));    \
             Dmem3->_using = true;    \
         }    \
         else {    \
             checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[i - 1],    \
                 dst->pitch * sizeof(_type), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(_type),    \
-                dst->height, cudaMemcpyDeviceToHost, S[2]));    \
+                dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));    \
             Dmem4->_using = true;    \
         }    \
     }    \

@@ -70,6 +70,7 @@ de::DH de::cuda::Conv2(_FLOAT_& src, _FLOAT_& kernel, _FLOAT_& dst, const uint f
         break;
     }
 
+
     return handle;
 }
 
