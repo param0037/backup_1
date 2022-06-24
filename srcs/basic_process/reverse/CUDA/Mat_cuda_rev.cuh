@@ -41,6 +41,7 @@ de::DH de::cuda::Reverse(de::GPU_Matrix<T>& src, de::GPU_Matrix<T>& dst)
 
     cudaStream_t S;
     checkCudaErrors(cudaStreamCreate(&S));
+    //decx::cuda_stream* S = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
 
     const uint2 original_dim = make_uint2(_src->width, _src->height);
     decx::PtrInfo<T> buffer;
@@ -62,6 +63,10 @@ de::DH de::cuda::Reverse(de::GPU_Matrix<T>& src, de::GPU_Matrix<T>& dst)
     checkCudaErrors(cudaMemcpy2DAsync(_dst->Mat.ptr, _dst->pitch * sizeof(T),
         buffer.ptr, _src->width * sizeof(T), _src->width * sizeof(T), _src->height,
         cudaMemcpyDeviceToDevice, S));
+
+    //S->detach();
+    checkCudaErrors(cudaDeviceSynchronize());
+    checkCudaErrors(cudaStreamDestroy(S));
 
     return handle;
 }
