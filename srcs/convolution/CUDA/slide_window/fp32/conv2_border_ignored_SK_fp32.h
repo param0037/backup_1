@@ -26,49 +26,49 @@ namespace decx
     static void main_loop_sconv2_sk_within8x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, _Matrix<float>* kernel, _MatrixArray<float>* dst,
         decx::alloc::MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_exact8x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, _Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_within8x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_exact8x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_within16x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_exact16x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_within16x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     static void main_loop_sconv2_sk_exact16x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3]);
+        decx::cuda_stream* S[3]);
 
 
     // single kernel
@@ -97,7 +97,7 @@ namespace decx
 static void decx::main_loop_sconv2_sk_within8x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, _Matrix<float>* kernel, _MatrixArray<float>* dst,
         decx::alloc::MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     int2 src_diff;
     // copy the first part to device memory
@@ -111,7 +111,7 @@ static void decx::main_loop_sconv2_sk_within8x8_NB(int2* Dsrc_alloc_dim, int2* D
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -119,21 +119,21 @@ static void decx::main_loop_sconv2_sk_within8x8_NB(int2* Dsrc_alloc_dim, int2* D
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_within8x8(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_within8x8(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_within8x8(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_within8x8(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_within_NB(float, 4),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -146,7 +146,7 @@ static void decx::main_loop_sconv2_sk_within8x8_NB(int2* Dsrc_alloc_dim, int2* D
 static void decx::main_loop_sconv2_sk_exact8x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, _Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     checkCudaErrors(cudaMemcpy2DAsync(Dmem1->mem,
         Dsrc_alloc_dim->x * sizeof(float4),
@@ -155,7 +155,7 @@ static void decx::main_loop_sconv2_sk_exact8x8_NB(int2* Dsrc_alloc_dim, int2* Dd
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -163,21 +163,21 @@ static void decx::main_loop_sconv2_sk_exact8x8_NB(int2* Dsrc_alloc_dim, int2* Dd
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_exact8x8(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_exact8x8(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_exact8x8(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_exact8x8(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_exact_NB(float),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -190,7 +190,7 @@ static void decx::main_loop_sconv2_sk_exact8x8_NB(int2* Dsrc_alloc_dim, int2* Dd
 static void decx::main_loop_sconv2_sk_within8x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     int2 src_diff;
     // copy the first part to device memory
@@ -204,7 +204,7 @@ static void decx::main_loop_sconv2_sk_within8x16_NB(int2* Dsrc_alloc_dim, int2* 
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -212,21 +212,21 @@ static void decx::main_loop_sconv2_sk_within8x16_NB(int2* Dsrc_alloc_dim, int2* 
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_within8x16(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_within8x16(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_within8x16(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_within8x16(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_within_NB(float, 4),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -239,7 +239,7 @@ static void decx::main_loop_sconv2_sk_within8x16_NB(int2* Dsrc_alloc_dim, int2* 
 static void decx::main_loop_sconv2_sk_exact8x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     checkCudaErrors(cudaMemcpy2DAsync(Dmem1->mem,
         Dsrc_alloc_dim->x * sizeof(float4),
@@ -248,7 +248,7 @@ static void decx::main_loop_sconv2_sk_exact8x16_NB(int2* Dsrc_alloc_dim, int2* D
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -256,21 +256,21 @@ static void decx::main_loop_sconv2_sk_exact8x16_NB(int2* Dsrc_alloc_dim, int2* D
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_exact8x16(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_exact8x16(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_exact8x16(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_exact8x16(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_exact_NB(float),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -283,7 +283,7 @@ static void decx::main_loop_sconv2_sk_exact8x16_NB(int2* Dsrc_alloc_dim, int2* D
 static void decx::main_loop_sconv2_sk_within16x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     int2 src_diff;
     // copy the first part to device memory
@@ -297,7 +297,7 @@ static void decx::main_loop_sconv2_sk_within16x8_NB(int2* Dsrc_alloc_dim, int2* 
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -305,21 +305,21 @@ static void decx::main_loop_sconv2_sk_within16x8_NB(int2* Dsrc_alloc_dim, int2* 
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_within16x8(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_within16x8(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_within16x8(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_within16x8(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_within_NB(float, 4),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -332,7 +332,7 @@ static void decx::main_loop_sconv2_sk_within16x8_NB(int2* Dsrc_alloc_dim, int2* 
 static void decx::main_loop_sconv2_sk_exact16x8_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     checkCudaErrors(cudaMemcpy2DAsync(Dmem1->mem,
         Dsrc_alloc_dim->x * sizeof(float4),
@@ -341,7 +341,7 @@ static void decx::main_loop_sconv2_sk_exact16x8_NB(int2* Dsrc_alloc_dim, int2* D
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -349,21 +349,21 @@ static void decx::main_loop_sconv2_sk_exact16x8_NB(int2* Dsrc_alloc_dim, int2* D
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_exact16x8(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_exact16x8(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_exact16x8(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_exact16x8(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_exact_NB(float),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -376,7 +376,7 @@ static void decx::main_loop_sconv2_sk_exact16x8_NB(int2* Dsrc_alloc_dim, int2* D
 static void decx::main_loop_sconv2_sk_within16x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     int2 src_diff;
     // copy the first part to device memory
@@ -390,7 +390,7 @@ static void decx::main_loop_sconv2_sk_within16x16_NB(int2* Dsrc_alloc_dim, int2*
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -398,21 +398,21 @@ static void decx::main_loop_sconv2_sk_within16x16_NB(int2* Dsrc_alloc_dim, int2*
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_within16x16(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_within16x16(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_within16x16(Dmem1->mem, Dmem3->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_within16x16(Dmem2->mem, Dmem4->mem, src_diff, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_within_NB(float, 4),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -425,7 +425,7 @@ static void decx::main_loop_sconv2_sk_within16x16_NB(int2* Dsrc_alloc_dim, int2*
 static void decx::main_loop_sconv2_sk_exact16x16_NB(int2* Dsrc_alloc_dim, int2* Ddst_alloc_dim, int2* ker_dim,
         _MatrixArray<float>* src, decx::_Matrix<float>* kernel, _MatrixArray<float>* dst,
         MIF<float4>* Dmem1, MIF<float4>* Dmem2, MIF<float4>* Dmem3, MIF<float4>* Dmem4,
-        cudaStream_t S[3])
+        decx::cuda_stream* S[3])
 {
     checkCudaErrors(cudaMemcpy2DAsync(Dmem1->mem,
         Dsrc_alloc_dim->x * sizeof(float4),
@@ -434,7 +434,7 @@ static void decx::main_loop_sconv2_sk_exact16x16_NB(int2* Dsrc_alloc_dim, int2* 
         src->width * sizeof(float),
         src->height,
         cudaMemcpyHostToDevice,
-        S[0]));                            // copy the datas of src from host to device
+        S[0]->get_raw_stream_ref()));                            // copy the datas of src from host to device
     Dmem1->leading = true;
     Dmem1->_using = false;
 
@@ -442,21 +442,21 @@ static void decx::main_loop_sconv2_sk_exact16x16_NB(int2* Dsrc_alloc_dim, int2* 
 
     // strat the main loop
     main_loop_regulable_R_sk(
-        sconv2_kernel_exact16x16(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
-        sconv2_kernel_exact16x16(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, &S[0]),
+        sconv2_kernel_exact16x16(Dmem1->mem, Dmem3->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
+        sconv2_kernel_exact16x16(Dmem2->mem, Dmem4->mem, *Dsrc_alloc_dim, *Ddst_alloc_dim, *ker_dim, S[0]->get_raw_stream_ptr()),
         conv3_main_loop_MemCpyHtoD_exact_NB(float),
         float);
 
     if (Dmem3->leading) {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem3->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem3->_using = true;
     }
     else {
         checkCudaErrors(cudaMemcpy2DAsync(dst->MatptrArr.ptr[dst->ArrayNumber - 1],
             dst->pitch * sizeof(float), Dmem4->mem, Ddst_alloc_dim->x * sizeof(float4), dst->width * sizeof(float),
-            dst->height, cudaMemcpyDeviceToHost, S[2]));
+            dst->height, cudaMemcpyDeviceToHost, S[2]->get_raw_stream_ref()));
         Dmem4->_using = false;
     }
 
@@ -512,17 +512,21 @@ static void decx::_Conv2_NB_R8x8_SK(_MatrixArray<float>* src, decx::_Matrix<floa
     Dmem3.mem = dev_dst1.ptr;
     Dmem4.mem = dev_dst2.ptr;
 
-    cudaStream_t S[3];
+    /*cudaStream_t S[3];
 #pragma unroll
     for (int i = 0; i < 3; ++i) {
         checkCudaErrors(cudaStreamCreate(&S[i]));
+    }*/
+    decx::cuda_stream* S[3];
+    for (int i = 0; i < 3; ++i) {
+        S[i] = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
     }
 
     uint offset_lin = 0, offset_ker = 0;
 
     for (int k = 0; k < kernel->height; ++k) {
         cudaMemcpyToSymbolAsync(Const_Mem, kernel->Mat.ptr + offset_ker,
-            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]);
+            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]->get_raw_stream_ref());
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
     }
@@ -544,7 +548,7 @@ static void decx::_Conv2_NB_R8x8_SK(_MatrixArray<float>* src, decx::_Matrix<floa
 
 #pragma unroll 3
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamDestroy(S[i]));
+        S[i]->detach();
     }
 }
 
@@ -594,17 +598,16 @@ static void decx::_Conv2_NB_R8x16_SK(_MatrixArray<float>* src, decx::_Matrix<flo
     Dmem3.mem = dev_dst1.ptr;
     Dmem4.mem = dev_dst2.ptr;
 
-    cudaStream_t S[3];
-#pragma unroll 3
+    decx::cuda_stream* S[3];
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamCreate(&S[i]));
+        S[i] = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
     }
 
     uint offset_lin = 0, offset_ker = 0;
 
     for (int k = 0; k < kernel->height; ++k) {
         cudaMemcpyToSymbolAsync(Const_Mem, kernel->Mat.ptr + offset_ker,
-            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]);
+            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]->get_raw_stream_ref());
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
     }
@@ -625,7 +628,7 @@ static void decx::_Conv2_NB_R8x16_SK(_MatrixArray<float>* src, decx::_Matrix<flo
 
 #pragma unroll 3
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamDestroy(S[i]));
+        S[i]->detach();
     }
 }
 
@@ -675,17 +678,16 @@ static void decx::_Conv2_NB_R16x8_SK(_MatrixArray<float>* src, decx::_Matrix<flo
     Dmem3.mem = dev_dst1.ptr;
     Dmem4.mem = dev_dst2.ptr;
 
-    cudaStream_t S[3];
-#pragma unroll 3
+    decx::cuda_stream* S[3];
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamCreate(&S[i]));
+        S[i] = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
     }
 
     uint offset_lin = 0, offset_ker = 0;
 
     for (int k = 0; k < kernel->height; ++k) {
         cudaMemcpyToSymbolAsync(Const_Mem, kernel->Mat.ptr + offset_ker,
-            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]);
+            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]->get_raw_stream_ref());
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
     }
@@ -706,7 +708,7 @@ static void decx::_Conv2_NB_R16x8_SK(_MatrixArray<float>* src, decx::_Matrix<flo
 
 #pragma unroll 3
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamDestroy(S[i]));
+        S[i]->detach();
     }
 }
 
@@ -757,17 +759,16 @@ static void decx::_Conv2_NB_R16x16_SK(_MatrixArray<float>* src, decx::_Matrix<fl
     Dmem3.mem = dev_dst1.ptr;
     Dmem4.mem = dev_dst2.ptr;
 
-    cudaStream_t S[3];
-#pragma unroll 3
+    decx::cuda_stream* S[3];
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamCreate(&S[i]));
+        S[i] = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
     }
 
     uint offset_lin = 0, offset_ker = 0;
 
     for (int k = 0; k < kernel->height; ++k) {
         cudaMemcpyToSymbolAsync(Const_Mem, kernel->Mat.ptr + offset_ker,
-            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]);
+            kernel->width * sizeof(float), offset_lin * sizeof(float), cudaMemcpyHostToDevice, S[0]->get_raw_stream_ref());
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
     }
@@ -788,7 +789,7 @@ static void decx::_Conv2_NB_R16x16_SK(_MatrixArray<float>* src, decx::_Matrix<fl
 
 #pragma unroll 3
     for (int i = 0; i < 3; ++i) {
-        checkCudaErrors(cudaStreamDestroy(S[i]));
+        S[i]->detach();
     }
 }
 

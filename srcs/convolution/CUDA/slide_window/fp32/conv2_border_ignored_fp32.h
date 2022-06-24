@@ -87,8 +87,9 @@ static void decx::_Conv2_NB_R8x8(_Matrix<float>* src, _Matrix<float>* kernel, _M
     Dsrc = dev_tmp.ptr;
     Ddst = Dsrc + dev_src_size;
 
-    cudaStream_t S;
-    checkCudaErrors(cudaStreamCreate(&S));
+    /*cudaStream_t S;
+    checkCudaErrors(cudaStreamCreate(&S));*/
+    decx::cuda_stream* S = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
 
     uint offset_lin = 0, offset_ker = 0;
 
@@ -96,7 +97,7 @@ static void decx::_Conv2_NB_R8x8(_Matrix<float>* src, _Matrix<float>* kernel, _M
         cudaMemcpyToSymbolAsync(Const_Mem,
                                 kernel->Mat.ptr + offset_ker,
                                 kernel->width * sizeof(float),
-                                offset_lin * sizeof(float), cudaMemcpyHostToDevice, S);
+                                offset_lin * sizeof(float), cudaMemcpyHostToDevice, S->get_raw_stream_ref());
 
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
@@ -105,10 +106,10 @@ static void decx::_Conv2_NB_R8x8(_Matrix<float>* src, _Matrix<float>* kernel, _M
     if (ker_dim.x == (bounded_kernel_R8 * 2 + 1) && ker_dim.y == (bounded_kernel_R8 * 2 + 1)) {
         checkCudaErrors(cudaMemcpy2DAsync(Dsrc,                                        Dsrc_alloc_dim.x * sizeof(float4),
                                           src->Mat.ptr,                                src->pitch * sizeof(float),
-                                          src->width * sizeof(float),                src->height,
-                                          cudaMemcpyHostToDevice,                    S));    // copy the datas of src from host to device
+                                          src->width * sizeof(float),                  src->height,
+                                          cudaMemcpyHostToDevice,                      S->get_raw_stream_ref()));    // copy the datas of src from host to device
 
-        sconv2_kernel_exact8x8(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_exact8x8(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
     else {
         int2 src_diff;
@@ -121,9 +122,9 @@ static void decx::_Conv2_NB_R8x8(_Matrix<float>* src, _Matrix<float>* kernel, _M
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_within8x8(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_within8x8(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
 
     checkCudaErrors(cudaMemcpy2DAsync(dst->Mat.ptr,        // copy the datas of src from device to host
@@ -133,12 +134,12 @@ static void decx::_Conv2_NB_R8x8(_Matrix<float>* src, _Matrix<float>* kernel, _M
         dst->width * sizeof(float),
         dst->height,
         cudaMemcpyDeviceToHost,
-        S));
+        S->get_raw_stream_ref()));
 
     checkCudaErrors(cudaDeviceSynchronize());
 
     decx::alloc::_dealloc_D(dev_tmp.block);
-    checkCudaErrors(cudaStreamDestroy(S));
+    S->detach();
 }
 
 
@@ -172,8 +173,9 @@ static void decx::_Conv2_NB_R16x16(_Matrix<float>* src, _Matrix<float>* kernel, 
     Dsrc = dev_tmp.ptr;
     Ddst = Dsrc + dev_src_size;
 
-    cudaStream_t S;
-    checkCudaErrors(cudaStreamCreate(&S));
+    /*cudaStream_t S;
+    checkCudaErrors(cudaStreamCreate(&S));*/
+    decx::cuda_stream* S = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
 
     uint offset_lin = 0, offset_ker = 0;
 
@@ -181,7 +183,7 @@ static void decx::_Conv2_NB_R16x16(_Matrix<float>* src, _Matrix<float>* kernel, 
         cudaMemcpyToSymbolAsync(Const_Mem,
             kernel->Mat.ptr + offset_ker,
             kernel->width * sizeof(float),
-            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S);
+            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S->get_raw_stream_ref());
 
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
@@ -195,9 +197,9 @@ static void decx::_Conv2_NB_R16x16(_Matrix<float>* src, _Matrix<float>* kernel, 
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_exact16x16(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_exact16x16(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
     else {
         int2 src_diff;
@@ -210,9 +212,9 @@ static void decx::_Conv2_NB_R16x16(_Matrix<float>* src, _Matrix<float>* kernel, 
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_within16x16(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_within16x16(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
 
     checkCudaErrors(cudaMemcpy2DAsync(dst->Mat.ptr,        // copy the datas of src from device to host
@@ -222,12 +224,12 @@ static void decx::_Conv2_NB_R16x16(_Matrix<float>* src, _Matrix<float>* kernel, 
         dst->width * sizeof(float),
         dst->height,
         cudaMemcpyDeviceToHost,
-        S));
+        S->get_raw_stream_ref()));
 
     checkCudaErrors(cudaDeviceSynchronize());
 
     decx::alloc::_dealloc_D(dev_tmp.block);
-    checkCudaErrors(cudaStreamDestroy(S));
+    S->detach();
 }
 
 
@@ -261,8 +263,9 @@ static void decx::_Conv2_NB_R8x16(decx::_Matrix<float>* src, decx::_Matrix<float
     Dsrc = dev_tmp.ptr;
     Ddst = Dsrc + dev_src_size;
 
-    cudaStream_t S;
-    checkCudaErrors(cudaStreamCreate(&S));
+    /*cudaStream_t S;
+    checkCudaErrors(cudaStreamCreate(&S));*/
+    decx::cuda_stream* S = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
 
     uint offset_lin = 0, offset_ker = 0;
 
@@ -270,7 +273,7 @@ static void decx::_Conv2_NB_R8x16(decx::_Matrix<float>* src, decx::_Matrix<float
         cudaMemcpyToSymbolAsync(Const_Mem,
             kernel->Mat.ptr + offset_ker,
             kernel->width * sizeof(float),
-            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S);
+            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S->get_raw_stream_ref());
 
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
@@ -284,9 +287,9 @@ static void decx::_Conv2_NB_R8x16(decx::_Matrix<float>* src, decx::_Matrix<float
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_exact8x16(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_exact8x16(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
     else {
         int2 src_diff;
@@ -299,9 +302,9 @@ static void decx::_Conv2_NB_R8x16(decx::_Matrix<float>* src, decx::_Matrix<float
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_within8x16(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_within8x16(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
 
     checkCudaErrors(cudaMemcpy2DAsync(dst->Mat.ptr,        // copy the datas of src from device to host
@@ -311,12 +314,12 @@ static void decx::_Conv2_NB_R8x16(decx::_Matrix<float>* src, decx::_Matrix<float
         dst->width * sizeof(float),
         dst->height,
         cudaMemcpyDeviceToHost,
-        S));
+        S->get_raw_stream_ref()));
 
     checkCudaErrors(cudaDeviceSynchronize());
 
     decx::alloc::_dealloc_D(dev_tmp.block);
-    checkCudaErrors(cudaStreamDestroy(S));
+    S->detach();
 }
 
 
@@ -350,8 +353,9 @@ static void decx::_Conv2_NB_R16x8(_Matrix<float>* src, _Matrix<float>* kernel, _
     Dsrc = dev_tmp.ptr;
     Ddst = Dsrc + dev_src_size;
 
-    cudaStream_t S;
-    checkCudaErrors(cudaStreamCreate(&S));
+    /*cudaStream_t S;
+    checkCudaErrors(cudaStreamCreate(&S));*/
+    decx::cuda_stream* S = decx::CStream.stream_accessor_ptr(cudaStreamNonBlocking);
 
     uint offset_lin = 0, offset_ker = 0;
 
@@ -359,7 +363,7 @@ static void decx::_Conv2_NB_R16x8(_Matrix<float>* src, _Matrix<float>* kernel, _
         cudaMemcpyToSymbolAsync(Const_Mem,
             kernel->Mat.ptr + offset_ker,
             kernel->width * sizeof(float),
-            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S);
+            offset_lin * sizeof(float), cudaMemcpyHostToDevice, S->get_raw_stream_ref());
 
         offset_lin += kernel->width;
         offset_ker += kernel->pitch;
@@ -373,9 +377,9 @@ static void decx::_Conv2_NB_R16x8(_Matrix<float>* src, _Matrix<float>* kernel, _
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_exact16x8(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_exact16x8(Dsrc, Ddst, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
     else {
         int2 src_diff;
@@ -388,9 +392,9 @@ static void decx::_Conv2_NB_R16x8(_Matrix<float>* src, _Matrix<float>* kernel, _
             src->width * sizeof(float),
             src->height,
             cudaMemcpyHostToDevice,
-            S));                            // copy the datas of src from host to device
+            S->get_raw_stream_ref()));                            // copy the datas of src from host to device
 
-        sconv2_kernel_within16x8(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, &S);
+        sconv2_kernel_within16x8(Dsrc, Ddst, src_diff, Dsrc_alloc_dim, Ddst_alloc_dim, ker_dim, S->get_raw_stream_ptr());
     }
 
     checkCudaErrors(cudaMemcpy2DAsync(dst->Mat.ptr,        // copy the datas of src from device to host
@@ -400,12 +404,12 @@ static void decx::_Conv2_NB_R16x8(_Matrix<float>* src, _Matrix<float>* kernel, _
         dst->width * sizeof(float),
         dst->height,
         cudaMemcpyDeviceToHost,
-        S));
+        S->get_raw_stream_ref()));
 
     checkCudaErrors(cudaDeviceSynchronize());
 
     decx::alloc::_dealloc_D(dev_tmp.block);
-    checkCudaErrors(cudaStreamDestroy(S));
+    S->detach();
 }
 
 
