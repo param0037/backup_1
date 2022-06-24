@@ -1,7 +1,7 @@
 /**
 *    ---------------------------------------------------------------------
-*    Author : Wayne
-*   Date   : 2021.04.16
+*    Author : Wayne Anderson
+*    Date   : 2021.04.16
 *    ---------------------------------------------------------------------
 *    This is a part of the open source program named "DECX", copyright c Wayne,
 *    2021.04.16
@@ -12,9 +12,9 @@
 
 #pragma once
 
+#ifdef _DECX_CPU_CODES_
 #include "../../core/thread_management/thread_pool.h"
 #include "../cv_classes/cv_classes.h"
-#include "cvt_colors_def.h"
 
 
 #ifndef _CVT_COLORS_H_
@@ -22,32 +22,38 @@
 
 
 
-#define _BGR2GRAY_UNIT_(__ord, __dex) {                                \
-reg_pixel.m128_f32[0] = (float)reg_tmp.m128i_u8[__dex * 4 + 0];        \
-reg_pixel.m128_f32[1] = (float)reg_tmp.m128i_u8[__dex * 4 + 1];        \
-reg_pixel.m128_f32[2] = (float)reg_tmp.m128i_u8[__dex * 4 + 2];        \
-                                                                    \
-reg_pixel = _mm_mul_ps(reg_pixel, scalar);                            \
-reg_pixel.m128_f32[0] += reg_pixel.m128_f32[1];                        \
-reg_pixel.m128_f32[0] += reg_pixel.m128_f32[2];                        \
-                                                                    \
-reg_ans.m128i_u8[__ord * 4 + __dex] = (uchar)reg_pixel.m128_f32[0];    \
-}
+namespace decx
+{
+    /*
+    * dims.x : It is the true pitch of pixel data matrix, scale of uchar
+    * dims.y : It is the height of pixel data matrix
+    */
+    _DECX_API_ void _BGR2Gray_UC2UC_caller(float* src, float* dst, const int2 dims);
+
+    /*
+    * dims.x : It is the true pitch of pixel data matrix, scale of uchar
+    * dims.y : It is the height of pixel data matrix
+    */
+    _DECX_API_ void _Preserve_B_UC2UC_caller(float* src, float* dst, const int2 dims);
+
+    /*
+    * dims.x : It is the true pitch of pixel data matrix, scale of uchar
+    * dims.y : It is the height of pixel data matrix
+    */
+    _DECX_API_ void _Preserve_G_UC2UC_caller(float* src, float* dst, const int2 dims);
+
+    /*
+    * dims.x : It is the true pitch of pixel data matrix, scale of uchar
+    * dims.y : It is the height of pixel data matrix
+    */
+    _DECX_API_ void _Preserve_R_UC2UC_caller(float* src, float* dst, const int2 dims);
 
 
-
-#define _PRESERVE_B_UNIT_(__ord, __dex) {                                \
-reg_ans.m128i_u8[__ord * 4 + __dex] = reg_tmp.m128i_u8[__dex * 4 + 0];    \
-}
-
-
-#define _PRESERVE_G_UNIT_(__ord, __dex) {                                \
-reg_ans.m128i_u8[__ord * 4 + __dex] = reg_tmp.m128i_u8[__dex * 4 + 1];    \
-}
-
-
-#define _PRESERVE_R_UNIT_(__ord, __dex) {                                \
-reg_ans.m128i_u8[__ord * 4 + __dex] = reg_tmp.m128i_u8[__dex * 4 + 2];    \
+    /*
+    * dims.x : It is the true pitch of pixel data matrix, scale of uchar
+    * dims.y : It is the height of pixel data matrix
+    */
+    _DECX_API_ void _Preserve_A_UC2UC_caller(float* src, float* dst, const int2 dims);
 }
 
 
@@ -78,6 +84,12 @@ namespace decx
     * dims : The dims info of processed area, dims.x : pitch(16x); dims.y : height
     */
     static void _THREAD_FUNCTION_ _Preserve_R_ST_UC2UC(float* src, float* dst, const int2 dims);
+
+    /*
+    * src and dst have two different scale of pitch, take dst's as scale, which is 16x
+    * dims : The dims info of processed area, dims.x : pitch(16x); dims.y : height
+    */
+    static void _THREAD_FUNCTION_ _Preserve_A_ST_UC2UC(float* src, float* dst, const int2 dims);
 }
 
 
@@ -85,42 +97,58 @@ namespace decx
 static void _THREAD_FUNCTION_ decx::_BGR2Gray_ST_UC2UC(float* src, float* dst, const int2 dims)
 {
     size_t glo_dex_src = 0, glo_dex_dst = 0;
-    __m128i reg_tmp, reg_ans;
-    __m128 reg_pixel,
-        scalar = _mm_set_ps(0.114f, 0.587f, 0.299f, 0);
+    __m128i __recv, __recv_cvt0;
+    __m128 pixel_f, __recv_cvt1,
+        scalar = _mm_set_ps(0, 0.299f, 0.587f, 0.114f);
+
+    float res;
+
+    uchar4 reg_dst;
 
     for (int i = 0; i < dims.y; ++i) {
         for (int j = 0; j < dims.x; ++j) {
-            *((__m128*)&reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _BGR2GRAY_UNIT_(0, 0);
-            _BGR2GRAY_UNIT_(0, 1);
-            _BGR2GRAY_UNIT_(0, 2);
-            _BGR2GRAY_UNIT_(0, 3);
+            *((__m128*)&__recv) = _mm_load_ps(src + glo_dex_src);
             glo_dex_src += 4;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _BGR2GRAY_UNIT_(1, 0);
-            _BGR2GRAY_UNIT_(1, 1);
-            _BGR2GRAY_UNIT_(1, 2);
-            _BGR2GRAY_UNIT_(1, 3);
-            glo_dex_src += 4;
+            ((float*)&__recv_cvt0)[0] = ((float*)&__recv)[0];
+            *((__m128i*)&__recv_cvt1) = _mm_cvtepi8_epi32(__recv_cvt0);
+            pixel_f = _mm_cvtepi32_ps(*((__m128i*)&__recv_cvt1));
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _BGR2GRAY_UNIT_(2, 0);
-            _BGR2GRAY_UNIT_(2, 1);
-            _BGR2GRAY_UNIT_(2, 2);
-            _BGR2GRAY_UNIT_(2, 3);
-            glo_dex_src += 4;
+            __recv_cvt1 = _mm_mul_ps(pixel_f, scalar);
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _BGR2GRAY_UNIT_(3, 0);
-            _BGR2GRAY_UNIT_(3, 1);
-            _BGR2GRAY_UNIT_(3, 2);
-            _BGR2GRAY_UNIT_(3, 3);
-            glo_dex_src += 4;
+            res = decx::utils::_mm128_h_sum(__recv_cvt1);
+            reg_dst.x = (uchar)res;
 
-            _mm_store_ps(dst + glo_dex_dst, *((__m128*)&reg_ans));
-            glo_dex_dst += 4;
+            ((float*)&__recv_cvt0)[0] = ((float*)&__recv)[1];
+            *((__m128i*) & __recv_cvt1) = _mm_cvtepi8_epi32(__recv_cvt0);
+            pixel_f = _mm_cvtepi32_ps(*((__m128i*) & __recv_cvt1));
+
+            __recv_cvt1 = _mm_mul_ps(pixel_f, scalar);
+
+            res = decx::utils::_mm128_h_sum(__recv_cvt1);
+            reg_dst.y = (uchar)res;
+
+            ((float*)&__recv_cvt0)[0] = ((float*)&__recv)[2];
+            *((__m128i*) & __recv_cvt1) = _mm_cvtepi8_epi32(__recv_cvt0);
+            pixel_f = _mm_cvtepi32_ps(*((__m128i*) & __recv_cvt1));
+
+            __recv_cvt1 = _mm_mul_ps(pixel_f, scalar);
+
+            res = decx::utils::_mm128_h_sum(__recv_cvt1);
+            reg_dst.z = (uchar)res;
+
+            ((float*)&__recv_cvt0)[0] = ((float*)&__recv)[3];
+            *((__m128i*) & __recv_cvt1) = _mm_cvtepi8_epi32(__recv_cvt0);
+            pixel_f = _mm_cvtepi32_ps(*((__m128i*) & __recv_cvt1));
+
+            __recv_cvt1 = _mm_mul_ps(pixel_f, scalar);
+
+            res = decx::utils::_mm128_h_sum(__recv_cvt1);
+            reg_dst.w = (uchar)res;
+
+            dst[glo_dex_dst] = *((float*)&reg_dst);
+
+            ++glo_dex_dst;
         }
     }
 }
@@ -130,40 +158,23 @@ static void _THREAD_FUNCTION_ decx::_BGR2Gray_ST_UC2UC(float* src, float* dst, c
 static void _THREAD_FUNCTION_ decx::_Preserve_B_ST_UC2UC(float* src, float* dst, const int2 dims)
 {
     size_t glo_dex_src = 0, glo_dex_dst = 0;
-    __m128i reg_tmp, reg_ans;
+    __m128i __recv;
+    
+    uchar4 reg_dst;
 
     for (int i = 0; i < dims.y; ++i) {
         for (int j = 0; j < dims.x; ++j) {
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_B_UNIT_(0, 0);
-            _PRESERVE_B_UNIT_(0, 1);
-            _PRESERVE_B_UNIT_(0, 2);
-            _PRESERVE_B_UNIT_(0, 3);
+            *((__m128*) & __recv) = _mm_load_ps(src + glo_dex_src);
             glo_dex_src += 4;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_B_UNIT_(1, 0);
-            _PRESERVE_B_UNIT_(1, 1);
-            _PRESERVE_B_UNIT_(1, 2);
-            _PRESERVE_B_UNIT_(1, 3);
-            glo_dex_src += 4;
+            reg_dst.x = ((uchar4*)&__recv)[0].x;
+            reg_dst.y = ((uchar4*)&__recv)[1].x;
+            reg_dst.z = ((uchar4*)&__recv)[2].x;
+            reg_dst.w = ((uchar4*)&__recv)[3].x;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_B_UNIT_(2, 0);
-            _PRESERVE_B_UNIT_(2, 1);
-            _PRESERVE_B_UNIT_(2, 2);
-            _PRESERVE_B_UNIT_(2, 3);
-            glo_dex_src += 4;
+            dst[glo_dex_dst] = *((float*)&reg_dst);
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_B_UNIT_(3, 0);
-            _PRESERVE_B_UNIT_(3, 1);
-            _PRESERVE_B_UNIT_(3, 2);
-            _PRESERVE_B_UNIT_(3, 3);
-            glo_dex_src += 4;
-
-            _mm_store_ps(dst + glo_dex_dst, *((__m128*) & reg_ans));
-            glo_dex_dst += 4;
+            ++glo_dex_dst;
         }
     }
 }
@@ -173,40 +184,23 @@ static void _THREAD_FUNCTION_ decx::_Preserve_B_ST_UC2UC(float* src, float* dst,
 static void _THREAD_FUNCTION_ decx::_Preserve_G_ST_UC2UC(float* src, float* dst, const int2 dims)
 {
     size_t glo_dex_src = 0, glo_dex_dst = 0;
-    __m128i reg_tmp, reg_ans;
+    __m128i __recv;
+
+    uchar4 reg_dst;
 
     for (int i = 0; i < dims.y; ++i) {
         for (int j = 0; j < dims.x; ++j) {
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_G_UNIT_(0, 0);
-            _PRESERVE_G_UNIT_(0, 1);
-            _PRESERVE_G_UNIT_(0, 2);
-            _PRESERVE_G_UNIT_(0, 3);
+            *((__m128*) & __recv) = _mm_load_ps(src + glo_dex_src);
             glo_dex_src += 4;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_G_UNIT_(1, 0);
-            _PRESERVE_G_UNIT_(1, 1);
-            _PRESERVE_G_UNIT_(1, 2);
-            _PRESERVE_G_UNIT_(1, 3);
-            glo_dex_src += 4;
+            reg_dst.x = ((uchar4*)&__recv)[0].y;
+            reg_dst.y = ((uchar4*)&__recv)[1].y;
+            reg_dst.z = ((uchar4*)&__recv)[2].y;
+            reg_dst.w = ((uchar4*)&__recv)[3].y;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_G_UNIT_(2, 0);
-            _PRESERVE_G_UNIT_(2, 1);
-            _PRESERVE_G_UNIT_(2, 2);
-            _PRESERVE_G_UNIT_(2, 3);
-            glo_dex_src += 4;
+            dst[glo_dex_dst] = *((float*)&reg_dst);
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_G_UNIT_(3, 0);
-            _PRESERVE_G_UNIT_(3, 1);
-            _PRESERVE_G_UNIT_(3, 2);
-            _PRESERVE_G_UNIT_(3, 3);
-            glo_dex_src += 4;
-
-            _mm_store_ps(dst + glo_dex_dst, *((__m128*) & reg_ans));
-            glo_dex_dst += 4;
+            ++glo_dex_dst;
         }
     }
 }
@@ -216,40 +210,49 @@ static void _THREAD_FUNCTION_ decx::_Preserve_G_ST_UC2UC(float* src, float* dst,
 static void _THREAD_FUNCTION_ decx::_Preserve_R_ST_UC2UC(float* src, float* dst, const int2 dims)
 {
     size_t glo_dex_src = 0, glo_dex_dst = 0;
-    __m128i reg_tmp, reg_ans;
+    __m128i __recv;
+
+    uchar4 reg_dst;
 
     for (int i = 0; i < dims.y; ++i) {
         for (int j = 0; j < dims.x; ++j) {
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_R_UNIT_(0, 0);
-            _PRESERVE_R_UNIT_(0, 1);
-            _PRESERVE_R_UNIT_(0, 2);
-            _PRESERVE_R_UNIT_(0, 3);
+            *((__m128*) & __recv) = _mm_load_ps(src + glo_dex_src);
             glo_dex_src += 4;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_R_UNIT_(1, 0);
-            _PRESERVE_R_UNIT_(1, 1);
-            _PRESERVE_R_UNIT_(1, 2);
-            _PRESERVE_R_UNIT_(1, 3);
+            reg_dst.x = ((uchar4*)&__recv)[0].z;
+            reg_dst.y = ((uchar4*)&__recv)[1].z;
+            reg_dst.z = ((uchar4*)&__recv)[2].z;
+            reg_dst.w = ((uchar4*)&__recv)[3].z;
+
+            dst[glo_dex_dst] = *((float*)&reg_dst);
+
+            ++glo_dex_dst;
+        }
+    }
+}
+
+
+
+static void _THREAD_FUNCTION_ decx::_Preserve_A_ST_UC2UC(float* src, float* dst, const int2 dims)
+{
+    size_t glo_dex_src = 0, glo_dex_dst = 0;
+    __m128i __recv;
+
+    uchar4 reg_dst;
+
+    for (int i = 0; i < dims.y; ++i) {
+        for (int j = 0; j < dims.x; ++j) {
+            *((__m128*) & __recv) = _mm_load_ps(src + glo_dex_src);
             glo_dex_src += 4;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_R_UNIT_(2, 0);
-            _PRESERVE_R_UNIT_(2, 1);
-            _PRESERVE_R_UNIT_(2, 2);
-            _PRESERVE_R_UNIT_(2, 3);
-            glo_dex_src += 4;
+            reg_dst.x = ((uchar4*)&__recv)[0].w;
+            reg_dst.y = ((uchar4*)&__recv)[1].w;
+            reg_dst.z = ((uchar4*)&__recv)[2].w;
+            reg_dst.w = ((uchar4*)&__recv)[3].w;
 
-            *((__m128*) & reg_tmp) = _mm_load_ps(src + glo_dex_src);
-            _PRESERVE_R_UNIT_(3, 0);
-            _PRESERVE_R_UNIT_(3, 1);
-            _PRESERVE_R_UNIT_(3, 2);
-            _PRESERVE_R_UNIT_(3, 3);
-            glo_dex_src += 4;
+            dst[glo_dex_dst] = *((float*)&reg_dst);
 
-            _mm_store_ps(dst + glo_dex_dst, *((__m128*) & reg_ans));
-            glo_dex_dst += 4;
+            ++glo_dex_dst;
         }
     }
 }
@@ -261,53 +264,53 @@ static void _THREAD_FUNCTION_ decx::_Preserve_R_ST_UC2UC(float* src, float* dst,
 void decx::_BGR2Gray_UC2UC_caller(float* src, float* dst, const int2 dims)
 {
     int _concurrent = (int)decx::thread_pool._hardware_concurrent;
-    int2 sub_dims = make_int2(dims.x / 16, dims.y / _concurrent);
+    int2 sub_dims = make_int2(dims.x / 4, dims.y / _concurrent);
     size_t fragment = (size_t)sub_dims.x * (size_t)sub_dims.y, offset = 0;
-    decx::PtrInfo<std::future<void>> _thread_handle;
 
-    decx::alloc::_host_virtual_page_malloc<std::future<void>>(&_thread_handle, _concurrent * sizeof(std::future<void>));
+    std::future<void>* _thread_handle = new std::future<void>[12];
 
     for (int i = 0; i < _concurrent - 1; ++i) {
-        _thread_handle.ptr[i] = decx::thread_pool.register_task(decx::_BGR2Gray_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+        _thread_handle[i] = decx::thread_pool.register_task(decx::_BGR2Gray_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
         offset += fragment;
     }
 
     sub_dims.y = dims.y - (_concurrent - 1) * sub_dims.y;
-    _thread_handle.ptr[decx::thread_pool._hardware_concurrent - 1] = 
-        decx::thread_pool.register_task(decx::_BGR2Gray_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+    _thread_handle[decx::thread_pool._hardware_concurrent - 1] = 
+        decx::thread_pool.register_task(decx::_BGR2Gray_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
     
     for (int i = 0; i < _concurrent; ++i) {
-        _thread_handle.ptr[i].get();
+        _thread_handle[i].get();
     }
 
-    decx::alloc::_host_virtual_page_dealloc<std::future<void>>(&_thread_handle);
+    delete[] _thread_handle;
 }
+
+
 
 
 
 void decx::_Preserve_B_UC2UC_caller(float* src, float* dst, const int2 dims)
 {
     int _concurrent = (int)decx::thread_pool._hardware_concurrent;
-    int2 sub_dims = make_int2(dims.x / 16, dims.y / _concurrent);
+    int2 sub_dims = make_int2(dims.x / 4, dims.y / _concurrent);
     size_t fragment = (size_t)sub_dims.x * (size_t)sub_dims.y, offset = 0;
-    decx::PtrInfo<std::future<void>> _thread_handle;
 
-    decx::alloc::_host_virtual_page_malloc<std::future<void>>(&_thread_handle, _concurrent * sizeof(std::future<void>));
+    std::future<void>* _thread_handle = new std::future<void>[12];
 
     for (int i = 0; i < _concurrent - 1; ++i) {
-        _thread_handle.ptr[i] = decx::thread_pool.register_task(decx::_Preserve_B_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+        _thread_handle[i] = decx::thread_pool.register_task(decx::_Preserve_B_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
         offset += fragment;
     }
 
     sub_dims.y = dims.y - (_concurrent - 1) * sub_dims.y;
-    _thread_handle.ptr[decx::thread_pool._hardware_concurrent - 1] =
-        decx::thread_pool.register_task(decx::_Preserve_B_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+    _thread_handle[decx::thread_pool._hardware_concurrent - 1] =
+        decx::thread_pool.register_task(decx::_Preserve_B_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
 
     for (int i = 0; i < _concurrent; ++i) {
-        _thread_handle.ptr[i].get();
+        _thread_handle[i].get();
     }
 
-    decx::alloc::_host_virtual_page_dealloc<std::future<void>>(&_thread_handle);
+    delete[] _thread_handle;
 }
 
 
@@ -315,26 +318,25 @@ void decx::_Preserve_B_UC2UC_caller(float* src, float* dst, const int2 dims)
 void decx::_Preserve_G_UC2UC_caller(float* src, float* dst, const int2 dims)
 {
     int _concurrent = (int)decx::thread_pool._hardware_concurrent;
-    int2 sub_dims = make_int2(dims.x / 16, dims.y / _concurrent);
+    int2 sub_dims = make_int2(dims.x / 4, dims.y / _concurrent);
     size_t fragment = (size_t)sub_dims.x * (size_t)sub_dims.y, offset = 0;
-    decx::PtrInfo<std::future<void>> _thread_handle;
 
-    decx::alloc::_host_virtual_page_malloc<std::future<void>>(&_thread_handle, _concurrent * sizeof(std::future<void>));
+    std::future<void>* _thread_handle = new std::future<void>[12];
 
     for (int i = 0; i < _concurrent - 1; ++i) {
-        _thread_handle.ptr[i] = decx::thread_pool.register_task(decx::_Preserve_G_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+        _thread_handle[i] = decx::thread_pool.register_task(decx::_Preserve_G_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
         offset += fragment;
     }
 
     sub_dims.y = dims.y - (_concurrent - 1) * sub_dims.y;
-    _thread_handle.ptr[decx::thread_pool._hardware_concurrent - 1] =
-        decx::thread_pool.register_task(decx::_Preserve_G_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+    _thread_handle[decx::thread_pool._hardware_concurrent - 1] =
+        decx::thread_pool.register_task(decx::_Preserve_G_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
 
     for (int i = 0; i < _concurrent; ++i) {
-        _thread_handle.ptr[i].get();
+        _thread_handle[i].get();
     }
 
-    decx::alloc::_host_virtual_page_dealloc<std::future<void>>(&_thread_handle);
+    delete[] _thread_handle;
 }
 
 
@@ -342,27 +344,53 @@ void decx::_Preserve_G_UC2UC_caller(float* src, float* dst, const int2 dims)
 void decx::_Preserve_R_UC2UC_caller(float* src, float* dst, const int2 dims)
 {
     int _concurrent = (int)decx::thread_pool._hardware_concurrent;
-    int2 sub_dims = make_int2(dims.x / 16, dims.y / _concurrent);
+    int2 sub_dims = make_int2(dims.x / 4, dims.y / _concurrent);
     size_t fragment = (size_t)sub_dims.x * (size_t)sub_dims.y, offset = 0;
-    decx::PtrInfo<std::future<void>> _thread_handle;
 
-    decx::alloc::_host_virtual_page_malloc<std::future<void>>(&_thread_handle, _concurrent * sizeof(std::future<void>));
+    std::future<void>* _thread_handle = new std::future<void>[12];
 
     for (int i = 0; i < _concurrent - 1; ++i) {
-        _thread_handle.ptr[i] = decx::thread_pool.register_task(decx::_Preserve_R_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+        _thread_handle[i] = decx::thread_pool.register_task(decx::_Preserve_R_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
         offset += fragment;
     }
 
     sub_dims.y = dims.y - (_concurrent - 1) * sub_dims.y;
-    _thread_handle.ptr[decx::thread_pool._hardware_concurrent - 1] =
-        decx::thread_pool.register_task(decx::_Preserve_R_ST_UC2UC, src + (offset << 4), dst + (offset << 2), sub_dims);
+    _thread_handle[decx::thread_pool._hardware_concurrent - 1] =
+        decx::thread_pool.register_task(decx::_Preserve_R_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
 
     for (int i = 0; i < _concurrent; ++i) {
-        _thread_handle.ptr[i].get();
+        _thread_handle[i].get();
     }
 
-    decx::alloc::_host_virtual_page_dealloc<std::future<void>>(&_thread_handle);
+    delete[] _thread_handle;
 }
 
+
+void decx::_Preserve_A_UC2UC_caller(float* src, float* dst, const int2 dims)
+{
+    int _concurrent = (int)decx::thread_pool._hardware_concurrent;
+    int2 sub_dims = make_int2(dims.x / 4, dims.y / _concurrent);
+    size_t fragment = (size_t)sub_dims.x * (size_t)sub_dims.y, offset = 0;
+
+    std::future<void>* _thread_handle = new std::future<void>[12];
+
+    for (int i = 0; i < _concurrent - 1; ++i) {
+        _thread_handle[i] = decx::thread_pool.register_task(decx::_Preserve_A_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
+        offset += fragment;
+    }
+
+    sub_dims.y = dims.y - (_concurrent - 1) * sub_dims.y;
+    _thread_handle[decx::thread_pool._hardware_concurrent - 1] =
+        decx::thread_pool.register_task(decx::_Preserve_A_ST_UC2UC, src + (offset << 2), dst + offset, sub_dims);
+
+    for (int i = 0; i < _concurrent; ++i) {
+        _thread_handle[i].get();
+    }
+
+    delete[] _thread_handle;
+}
+
+
+#endif
 
 #endif
