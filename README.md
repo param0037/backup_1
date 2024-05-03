@@ -2,7 +2,7 @@
 Config files for my GitHub profile.
 
 # 更新
-## 此项目移动到另一个仓库了: https://github.com/param0037/DECX
+## 此项目移动到另一个仓库: https://github.com/param0037/DECX
 ## This repository is moved and kept updated on my another repository: https://github.com/param0037/DECX 
 
 # 宗旨
